@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="resultado"></div>
+    <script>
+         const apiUrl = 'https://api.github.com/users/RafaelBonotto';
+
+                    async function fetchUserData() {
+                    try {
+                        const response = await fetch(apiUrl);
+                        const data = await response.json();
+                        return data;
+                    } catch (error) {
+                        console.error('Erro ao buscar dados da API:', error);
+                    }
+                }
+
+                // Função para exibir os dados na página
+                async function exibirDados() {
+                    const userData = await fetchUserData();
+                    if (userData) {
+                        const resultadoDiv = document.getElementById('resultado');
+                        resultadoDiv.innerHTML = `
+                            <h2>Informações do Usuário</h2>
+                            <p><strong>Nome:</strong> ${userData.name}</p>
+                            <p><strong>Biografia:</strong> ${userData.bio}</p>
+                            <p><strong>Repositórios Públicos:</strong> ${userData.public_repos}</p>
+                            <p><strong>Seguidores:</strong> ${userData.followers}</p>
+                            <p><strong>Seguindo:</strong> ${userData.following}</p>
+                            <img src="${userData.avatar_url}" alt="Avatar do Usuário" style="width: 100px; height: 100px;">
+                        `;
+                    }
+                }
+
+                // Chamando a função para exibir os dados ao carregar a página
+                window.onload = exibirDados;
+    </script>
+</body>
+</html>
